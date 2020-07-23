@@ -55,18 +55,20 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				<form>
 				<div class="modal-body">
-					<p>
-						Title: <span id="todo-title"></span>
-					</p>
-					<p>
-						Description: <span id="todo-description"></span>
-					</p>
+					<label for="todo-title">Title: </label>
+						<input type="text" id="todo-title"><br/>
+					<label for="todo-description">Description: </label>
+						<input type="text" id="todo-description">
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="saveChangesButton" data-dismiss="modal">Save changes</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
+					
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>

@@ -21,8 +21,8 @@ $(document).ready(function() {
 			var todoID = $(this).parent().attr('data-id');
 			var currentTodo = getTodo(todoID);
 			console.log(currentTodo);
-			$("span#todo-title").html(currentTodo.title);
-			$("span#todo-description").html(currentTodo.description);
+			$("input#todo-title:text").val(currentTodo.title);
+			$("input#todo-description:text").val(currentTodo.description);
 		})
 	}
 
@@ -97,6 +97,11 @@ $(document).ready(function() {
 			$("#todo-list").empty();
 		}
 	}
+	
+	function editTodo(){
+		$("input#todo-title:text").val();
+		$("input#todo-description:text").val();
+	}
 
 	$("#addButton").click(function(){
 		newTodo();
@@ -104,5 +109,9 @@ $(document).ready(function() {
 	$("#deleteAllButton").click(function(){
 		deleteAllTodos();
 	});
+	$("#saveChangesButton").click(function(){
+		editTodo()
+	});
+	
 
 })
