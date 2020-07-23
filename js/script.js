@@ -11,6 +11,8 @@ $(document).ready(function() {
 	}
 
 	registerEventListeners();
+	
+	openEditId = -1;
 
 	function registerEventListeners() {
 		$(".delete").on("click", function() {
@@ -23,6 +25,7 @@ $(document).ready(function() {
 			console.log(currentTodo);
 			$("input#todo-title:text").val(currentTodo.title);
 			$("input#todo-description:text").val(currentTodo.description);
+			openEditId = todoID;
 		})
 	}
 
@@ -99,8 +102,12 @@ $(document).ready(function() {
 	}
 	
 	function editTodo(){
-		$("input#todo-title:text").val();
-		$("input#todo-description:text").val();
+		var newTitle = $("input#todo-title:text").val();
+		var newDesc = $("input#todo-description:text").val();
+		var todoID = openEditId;
+		deleteTodo(todoID);
+		var newID = storeTodoLocal(newTitle, newDesc);
+		newTodo(newTitle, newDesc, newID);
 	}
 
 	$("#addButton").click(function(){
