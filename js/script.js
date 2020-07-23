@@ -97,6 +97,11 @@ $(document).ready(function() {
 			$("#todo-list").empty();
 		}
 	}
+	
+	function editTodo(){
+		$("input#todo-title:text").val();
+		$("input#todo-description:text").val();
+	}
 
 	$("#addButton").click(function(){
 		newTodo();
@@ -104,5 +109,9 @@ $(document).ready(function() {
 	$("#deleteAllButton").click(function(){
 		deleteAllTodos();
 	});
+	$("#saveChangesButton").click(function(){
+		editTodo()
+	});
+	
 
 })
