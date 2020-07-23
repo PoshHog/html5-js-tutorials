@@ -21,8 +21,8 @@ $(document).ready(function() {
 			var todoID = $(this).parent().attr('data-id');
 			var currentTodo = getTodo(todoID);
 			console.log(currentTodo);
-			$("span#todo-title").html(currentTodo.title);
-			$("span#todo-description").html(currentTodo.description);
+			$("input#todo-title:text").val(currentTodo.title);
+			$("input#todo-description:text").val(currentTodo.description);
 		})
 	}
 
