@@ -5,7 +5,7 @@ $(document).ready(function() {
 	if (json_data) {
 		json_data.forEach(element => {
 			if (element) {
-				newTodo(element.title, element.description, element.id);
+				newTodo(element.title, element.description, element.id, element.completed);
 			}
 		});
 	}
@@ -27,6 +27,7 @@ $(document).ready(function() {
 			$("input#todo-description:text").val(currentTodo.description);
 			openEditId = todoID;
 		})
+		
 	}
 
 	function getTodo(id) {
@@ -45,23 +46,35 @@ $(document).ready(function() {
 
 	}
 
-	function newTodo(todoTitle, todoDesc, todoID) {
+	function newTodo(todoTitle, todoDesc, todoID, checked) {
 		if (!todoTitle && !todoID) {
 			todoTitle = document.getElementById("todoTitle").value;
 			todoDesc = document.getElementById("todoDesc").value;
 			if (todoTitle) {
-				var todoID = storeTodoLocal(todoTitle, todoDesc);
+				var todoID = storeTodoLocal(todoTitle, todoDesc, false);
 			}
 		}
 		if (todoTitle) {
-			var todoHTML = '<li style="display:none" data-id="' + todoID + '"><a href="#" data-toggle="modal" data-target="#todoModal">' + todoTitle + '</a> <a href="#" class="btn btn-sm btn-danger m-1 delete">Delete</a></li>';
+			var todoHTML = '<li style="display:none" data-id="' + todoID + '"><a href="#" data-toggle="modal" data-target="#todoModal">' + todoTitle + '</a> <input type="checkbox" id="cb'+todoID+'" checked="'+checked+'"> <a href="#" class="btn btn-sm btn-danger m-1 delete">Delete</a></li>';
 			$("#todo-list").append(todoHTML);
 			$("li[data-id=" + todoID + "]").fadeIn();
+			$("input#cb"+todoID+":checkbox")[0].checked = checked;
+			$("input#cb"+todoID).click(function(){
+				registerComplete(todoID, $("input#cb"+todoID+":checkbox")[0].checked);
+			})
 			registerEventListeners();
 		}
 	}
+	
+	function registerComplete(id, checked){
+		var json_temp = JSON.parse(localStorage.getItem('json_data'));
+		json_temp[id].completed = checked;
+		localStorage.setItem('json_data',
+			JSON.stringify(json_temp)
+		);
+	}
 
-	function storeTodoLocal(todoTitle, todoDesc) {
+	function storeTodoLocal(todoTitle, todoDesc, complete) {
 
 		// retrieve and parse existing JSON from localstorage
 		var json_temp = JSON.parse(localStorage.getItem('json_data'));
@@ -78,7 +91,7 @@ $(document).ready(function() {
 			"id": todoID,
 			"title": todoTitle,
 			"description": todoDesc,
-			"completed": false
+			"completed": complete
 		});
 
 		// log updated JSON to console
@@ -106,8 +119,8 @@ $(document).ready(function() {
 		var newDesc = $("input#todo-description:text").val();
 		var todoID = openEditId;
 		deleteTodo(todoID);
-		var newID = storeTodoLocal(newTitle, newDesc);
-		newTodo(newTitle, newDesc, newID);
+		var newID = storeTodoLocal(newTitle, newDesc, false);
+		newTodo(newTitle, newDesc, newID, false);
 	}
 
 	$("#addButton").click(function(){
